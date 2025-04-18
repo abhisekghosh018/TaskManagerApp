@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTaskTracker.Domain", "De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTaskTracker.Infrastructure", "DevTaskTracker.Infrastructure\DevTaskTracker.Infrastructure.csproj", "{F90C6359-C0D7-49A4-9FAE-6AC5AC07A0AC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevTaskTracker.Application", "DevTaskTracker.Application", "{8EB87A64-DE7A-1351-B3B5-88243E072013}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,5 +58,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1912B0AE-0B90-40BC-B6A8-39BD2A9A49AA}
 	EndGlobalSection
 EndGlobal
