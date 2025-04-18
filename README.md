@@ -1,10 +1,11 @@
-The project is focuses on how we manage our daily task in office or as an individual. 
+The project focuses on how we manage our daily tasks at the office or as individuals.
+# The project uses the following tech stack:
 
-# The Tech stack has been used for the project 
+.NET – for building APIs
 
-1. .NET core 8 / for API
-2. SQL Server / Database
-3. Will be using Angular for the front end
+SQL Server – for database management
+
+Angular – for the front-end development
 
 More updates will be added as the project progresses.
 
