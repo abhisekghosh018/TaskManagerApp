@@ -1,6 +1,7 @@
-﻿namespace DevTaskTracker.Application;
-
-public class Class1
+﻿namespace DevTaskTracker.Application
 {
+    public class Class1
+    {
 
+    }
 }

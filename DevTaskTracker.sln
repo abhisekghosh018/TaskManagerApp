@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTaskTracker.Domain", "De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTaskTracker.Infrastructure", "DevTaskTracker.Infrastructure\DevTaskTracker.Infrastructure.csproj", "{F90C6359-C0D7-49A4-9FAE-6AC5AC07A0AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTaskTracker.Application", "DevTaskTracker.Application\DevTaskTracker.Application.csproj", "{ED857B63-807E-4289-AFBA-2743C86A7BAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{F90C6359-C0D7-49A4-9FAE-6AC5AC07A0AC}.Release|x64.Build.0 = Release|Any CPU
 		{F90C6359-C0D7-49A4-9FAE-6AC5AC07A0AC}.Release|x86.ActiveCfg = Release|Any CPU
 		{F90C6359-C0D7-49A4-9FAE-6AC5AC07A0AC}.Release|x86.Build.0 = Release|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Debug|x64.Build.0 = Debug|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Debug|x86.Build.0 = Debug|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Release|x64.ActiveCfg = Release|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Release|x64.Build.0 = Release|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Release|x86.ActiveCfg = Release|Any CPU
+		{ED857B63-807E-4289-AFBA-2743C86A7BAA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
