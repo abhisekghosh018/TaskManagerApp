@@ -20,5 +20,7 @@ namespace DevTaskTracker.Application.DTOs.AuthDtos
 
         [Required]
         public string Password { get; set; }
+
+     
     }
 }

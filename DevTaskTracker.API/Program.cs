@@ -2,6 +2,7 @@
 using DevTaskTracker.Application.Services;
 using DevTaskTracker.Domain.Entities;
 using DevTaskTracker.Infrastructure.Persistence;
+using DevTaskTracker.Infrastructure.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +57,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await RoleSeeder.SeedRolesAsync(services);
+}
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
