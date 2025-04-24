@@ -1,6 +1,7 @@
 ﻿using DevTaskTracker.Application.DTOs;
 using DevTaskTracker.Domain.Entities;
 using DevTaskTracker.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DevTaskTracker.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TasksController : ControllerBase
@@ -20,20 +22,16 @@ namespace DevTaskTracker.API.Controllers
 
 
         // GET: api/<TasksController>
+        
         [HttpGet("gettasks")]
         public async Task<ActionResult<IEnumerable<TaskItem>>> GetTasks()
         {
             return await _appDbContext.TaskItems.Include(t=> t.AssignedToUser).ToListAsync();
         }
 
-        // GET api/<TasksController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+        
         // POST api/<TasksController>
+       
         [HttpPost("createtask")]
         public async Task<ActionResult<TaskItem>> CreateTask(TaskItemDto dto)
         {
@@ -50,16 +48,6 @@ namespace DevTaskTracker.API.Controllers
             return CreatedAtAction(nameof(GetTasks), new { id = task.Id }, task);
         }
 
-        // PUT api/<TasksController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<TasksController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        
     }
 }
