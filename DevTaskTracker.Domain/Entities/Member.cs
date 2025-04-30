@@ -15,7 +15,7 @@ namespace DevTaskTracker.Domain.Entities
         [Required]
         public string LastName { get; set; }
         [Required]  
-        public string WorkEmail { get; set; }
+        public string WorkEmail { get; set; } // Act as user name        
         [Required]  
         public string Role { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
