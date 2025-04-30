@@ -11,15 +11,17 @@ namespace DevTaskTracker.Application.DTOs.AuthDtos
     public class RegisterDto
     {
         [Required]
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         [Required, EmailAddress]
         public string Email { get; set; }
         public string? Contact { get; set; }
-        public string? OrganizationName { get; set; } // Name of the organization
-        public string? PersonName { get; set; }       
+        public string? OrganizationName { get; set; } // Name of the organization           
         [Required]
+        [MinLength(3), MaxLength(16)]
         public string UserName { get; set; }
         [Required]
+        [MinLength(8),MaxLength(16)]
         public string Password { get; set; }
       
     }

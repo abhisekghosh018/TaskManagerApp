@@ -1,6 +1,6 @@
 ﻿using Azure.Messaging;
-using DevTaskTracker.Application.DTOs;
 using DevTaskTracker.Application.DTOs.AuthDtos;
+using DevTaskTracker.Application.DTOs.Common;
 using DevTaskTracker.Application.Interfaces;
 using DevTaskTracker.Domain.Entities;
 using DevTaskTracker.Infrastructure.Persistence;
@@ -38,16 +38,16 @@ namespace DevTaskTracker.Infrastructure.Services
             // Create the Organization object first
             var organization = new Organization
             {
-                Name = dto.OrganizationName,
+                Name = dto.OrganizationName,                   
             };
 
             // Create the AppUser object
             var user = new AppUser
             {
-                FullName = dto.FullName,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
                 Email = dto.Email,
-                UserName = dto.UserName,
-                PersonName = dto.PersonName,
+                UserName = dto.UserName,                              
                 PhoneNumber = dto.Contact,
                 Organization = organization, // Link the organization
                 EmailConfirmed = true

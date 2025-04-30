@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DevTaskTracker.Application.DTOs
+namespace DevTaskTracker.Application.DTOs.Common
 {
     public class CommonReturnDto
     {

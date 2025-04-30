@@ -1,5 +1,5 @@
-﻿using DevTaskTracker.Application.DTOs;
-using DevTaskTracker.Application.DTOs.AuthDtos;
+﻿using DevTaskTracker.Application.DTOs.AuthDtos;
+using DevTaskTracker.Application.DTOs.Common;
 using DevTaskTracker.Domain.Entities;
 using System;
 using System.Collections.Generic;
