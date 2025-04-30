@@ -25,6 +25,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Add custom token service
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuth, AuthService>();
+builder.Services.AddScoped<IMember, MemberService>();
 
 // Add Identity with default token providers
 builder.Services.AddIdentity<AppUser, IdentityRole>()

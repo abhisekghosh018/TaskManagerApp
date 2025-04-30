@@ -1,4 +1,4 @@
-﻿using DevTaskTracker.Application.DTOs;
+﻿using DevTaskTracker.Application.DTOs.TaskDtos;
 using DevTaskTracker.Domain.Entities;
 using DevTaskTracker.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
