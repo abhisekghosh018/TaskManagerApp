@@ -1,10 +1,8 @@
-﻿using Azure.Messaging;
-using DevTaskTracker.Application.DTOs.AuthDtos;
+﻿using DevTaskTracker.Application.DTOs.AuthDtos;
 using DevTaskTracker.Application.DTOs.Common;
 using DevTaskTracker.Application.Interfaces;
 using DevTaskTracker.Domain.Entities;
 using DevTaskTracker.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
