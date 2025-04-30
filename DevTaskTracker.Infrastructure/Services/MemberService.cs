@@ -12,12 +12,12 @@ namespace DevTaskTracker.Infrastructure.Services
     {
 
         private readonly AppDbContext _appDbContext;   
-        private readonly UserManager<AppUser> _UserManager;
+        private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         public MemberService(AppDbContext appDbContext, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _appDbContext = appDbContext;
-            _UserManager = userManager;
+            _userManager = userManager;
             _roleManager = roleManager;
         }
 
@@ -34,6 +34,27 @@ namespace DevTaskTracker.Infrastructure.Services
                     ErrorMessage = CommonAlerts.MemberExistsWithEmail,
                 };
             }
+            // Create Identity user
+            var user = new AppUser
+            {
+                UserName = dto.WorkEmail,
+                Email = dto.WorkEmail,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                OrganizationId = dto.OrganizationId
+            };
+
+            var createResult = await _userManager.CreateAsync(user, dto.Password);
+            if (!createResult.Succeeded)
+            {
+                return new CommonReturnDto
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "Failed to create Identity user.",
+                    Data = createResult.Errors
+                };
+            }
+            await _userManager.AddToRoleAsync(user, dto.Role);
 
             // Map DTO to Entity
             var member = new Member

@@ -16,6 +16,7 @@ namespace DevTaskTracker.API.Controllers
         {
             _memberService = memberService;
         }
+
         [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
         [HttpGet("getallmembers")]
         public async Task<IActionResult> GetAllMembers()
