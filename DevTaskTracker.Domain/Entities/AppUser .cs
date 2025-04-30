@@ -10,12 +10,9 @@ namespace DevTaskTracker.Domain.Entities
     public class AppUser : IdentityUser
     {
         public ICollection<TaskItem> AssignedTask { get; set; } = new List<TaskItem>();
-        public string FullName { get; set; }
-
-        public string PersonName {get; set; } 
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }       
         public string? OrganizationId { get; set; }
-
         public Organization? Organization { get; set; }
     }
 }

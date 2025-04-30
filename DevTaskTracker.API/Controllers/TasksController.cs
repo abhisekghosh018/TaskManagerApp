@@ -20,7 +20,6 @@ namespace DevTaskTracker.API.Controllers
             _appDbContext = appDbContext;
         }
 
-
         // GET: api/<TasksController>
         
         [HttpGet("gettasks")]

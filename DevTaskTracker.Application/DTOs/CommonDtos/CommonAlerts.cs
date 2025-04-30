@@ -1,4 +1,4 @@
-﻿namespace DevTaskTracker.Application.DTOs
+﻿namespace DevTaskTracker.Application.DTOs.Common
 {
     public static class CommonAlerts
     {
