@@ -11,7 +11,6 @@ namespace DevTaskTracker.Application.DTOs.AuthDtos
     {
         [Required]
         public string UserName { get; set; }
-
         [Required]
         public string Password { get; set; }
     }

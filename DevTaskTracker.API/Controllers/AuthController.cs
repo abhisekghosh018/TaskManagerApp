@@ -1,9 +1,6 @@
 ﻿using DevTaskTracker.Application.DTOs.AuthDtos;
-using DevTaskTracker.Application.Services;
-using DevTaskTracker.Domain.Entities;
+using DevTaskTracker.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevTaskTracker.API.Controllers
@@ -12,87 +9,41 @@ namespace DevTaskTracker.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ITokenService _tokenService;
+        private readonly IAuth _authService;
 
-        public AuthController(UserManager<AppUser> userManager, ITokenService tokenService)
+        public AuthController(IAuth authService)
         {
-            _tokenService = tokenService;
-            _userManager = userManager;
+            _authService = authService;
         }
 
-        [HttpPost("register")]       
+        [AllowAnonymous]
+        [HttpPost("register")]
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingUser = await _userManager.FindByEmailAsync(dto.Email);
-            if (existingUser != null)
-                return Conflict("A user with this email already exists.");
+            var result = await _authService.Register(dto);
 
-            var user = new AppUser
+            if (!result.IsSuccess)
             {
-                FullName = dto.FullName,
-                Email = dto.Email,
-                UserName = dto.UserName,
-                EmailConfirmed = true // Optional: auto-confirm email if you're not using email confirmation
-            };
-
-            // 1. Create user with password
-            var createResult = await _userManager.CreateAsync(user, dto.Password);
-            if (!createResult.Succeeded)
-            {
-                return BadRequest(new
-                {
-                    Errors = createResult.Errors.Select(e => e.Description)
-                });
+                return BadRequest(result);
             }
 
-            var defaultRole = "User";
-            //var roleExists = await _roleManager.RoleExistsAsync(defaultRole);
-            //if (!roleExists)
-            //{
-            //    var roleResult = await _roleManager.CreateAsync(new IdentityRole(defaultRole));
-            //    if (!roleResult.Succeeded)
-            //    {
-            //        await _userManager.DeleteAsync(user); // rollback
-            //        return StatusCode(500, "Failed to create default role.");
-            //    }
-            //}
-
-            // Assign default role to the user
-            var assignResult = await _userManager.AddToRoleAsync(user, defaultRole);
-            if (!assignResult.Succeeded)
-            {
-                await _userManager.DeleteAsync(user); // rollback
-                return StatusCode(500, "Failed to assign default role.");
-            }
-
-            // 3. Generate JWT Token
-            var token = await _tokenService.CreateToken(user);
-
-            return Ok(new
-            {
-                message = "User registered successfully.",
-                token
-            });
+            return Ok(result);
         }
-
-
-
-
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var user = await _userManager.FindByNameAsync(loginDto.UserName);
+           var result = await _authService.Login(loginDto);
 
-            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password)) 
-                return Unauthorized("Invalid Credentials");
-
-            return Ok(new {token = await _tokenService.CreateToken(user)});
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);  
         }
     }
 }

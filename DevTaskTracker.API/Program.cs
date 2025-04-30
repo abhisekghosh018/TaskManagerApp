@@ -1,7 +1,8 @@
 
-using DevTaskTracker.Application.Services;
+using DevTaskTracker.Application.Interfaces;
 using DevTaskTracker.Domain.Entities;
 using DevTaskTracker.Infrastructure.Persistence;
+using DevTaskTracker.Infrastructure.Services;
 using DevTaskTracker.Infrastructure.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -23,6 +24,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Add custom token service
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuth, AuthService>();
 
 // Add Identity with default token providers
 builder.Services.AddIdentity<AppUser, IdentityRole>()

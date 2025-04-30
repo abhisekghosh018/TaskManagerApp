@@ -1,6 +1,6 @@
 ﻿using DevTaskTracker.Domain.Entities;
 
-namespace DevTaskTracker.Application.Services
+namespace DevTaskTracker.Application.Interfaces
 {
     public interface ITokenService
     {
