@@ -11,5 +11,11 @@ namespace DevTaskTracker.Domain.Entities
     {
         public ICollection<TaskItem> AssignedTask { get; set; } = new List<TaskItem>();
         public string FullName { get; set; }
+
+        public string PersonName {get; set; } 
+
+        public string? OrganizationId { get; set; }
+
+        public Organization? Organization { get; set; }
     }
 }
