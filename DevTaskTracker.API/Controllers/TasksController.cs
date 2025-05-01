@@ -37,7 +37,7 @@ namespace DevTaskTracker.API.Controllers
             if (!result.IsSuccess) return BadRequest(result.ErrorMessage);                
             return Ok(result);
         }
-        //[Authorize(Roles = "SuperAdmin,Admin,OrgAdmin,User")]
+        [Authorize(Roles = "SuperAdmin,Admin,OrgAdmin,User")]
         [HttpGet("filterTasks")]
         public async Task<IActionResult> FilterTasks(string? priority, string? status, DateTime? dueDate)
         {
