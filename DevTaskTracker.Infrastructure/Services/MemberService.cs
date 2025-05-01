@@ -10,7 +10,6 @@ namespace DevTaskTracker.Infrastructure.Services
 {
     public class MemberService : IMember
     {
-
         private readonly AppDbContext _appDbContext;   
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -96,14 +95,14 @@ namespace DevTaskTracker.Infrastructure.Services
             }   
             return new CommonReturnDto
             {
-                Data = await _appDbContext.Members.ToListAsync(),
+                Data =members.ToList(),
                 IsSuccess = true
             };
         }
 
         public async Task<CommonReturnDto> GetMembersByIdAsync(string id)
         {
-            var members = await _appDbContext.Members.FirstOrDefaultAsync(m=> m.Id == id);
+            var members = await _appDbContext.Members.Include(o=> o.Organization).FirstOrDefaultAsync(o=> o.Id == id);
 
             if (members == null)
             {

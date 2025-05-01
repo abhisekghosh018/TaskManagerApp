@@ -12,9 +12,10 @@ namespace DevTaskTracker.Domain.Entities
 
         // Task status like Open, InProgress, Done
         public TaskStatusEnum Status { get; set; }
+        public TaskPriorityEnum Priority { get; set; }
 
-        // Foreign Key - Assigned User
-        public string? AssignedToUserId { get; set; }
-        public AppUser? AssignedToUser { get; set; }
+        // Foreign Key - Assigned User        
+        public string? MemberId { get; set; }
+        public Member? Member { get; set; }
     }
 }
