@@ -4,6 +4,7 @@ using DevTaskTracker.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevTaskTracker.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250430234308_PriorityToTaskItem")]
+    partial class PriorityToTaskItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,7 +179,7 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AppUserId")
+                    b.Property<string>("AssignedToUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -191,13 +194,11 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                     b.Property<string>("MemberId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Priority")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PriorityEnum")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("StatusEnum")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -205,7 +206,7 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AssignedToUserId");
 
                     b.HasIndex("MemberId");
 
@@ -367,15 +368,15 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("DevTaskTracker.Domain.Entities.TaskItem", b =>
                 {
-                    b.HasOne("DevTaskTracker.Domain.Entities.AppUser", null)
+                    b.HasOne("DevTaskTracker.Domain.Entities.AppUser", "AssignedToUser")
                         .WithMany("AssignedTask")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AssignedToUserId");
 
-                    b.HasOne("DevTaskTracker.Domain.Entities.Member", "Member")
+                    b.HasOne("DevTaskTracker.Domain.Entities.Member", null)
                         .WithMany("AssignedTasks")
                         .HasForeignKey("MemberId");
 
-                    b.Navigation("Member");
+                    b.Navigation("AssignedToUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

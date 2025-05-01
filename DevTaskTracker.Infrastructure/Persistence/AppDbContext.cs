@@ -10,5 +10,21 @@ namespace DevTaskTracker.Infrastructure.Persistence
 
         public DbSet<TaskItem> TaskItems { get; set; }
         public DbSet<Member> Members { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<TaskItem>(entity =>
+            {
+                entity.Property(e => e.Status)
+                      .HasConversion<string>();
+
+                entity.Property(e => e.Priority)
+                      .HasConversion<string>();
+            });
+        }
+
+
     }
 }

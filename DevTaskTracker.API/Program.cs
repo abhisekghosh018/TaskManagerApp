@@ -1,6 +1,9 @@
 
+using CommonQueryes.QueryClass;
+using CommonQueryes.QueryMember;
 using DevTaskTracker.Application.Interfaces;
 using DevTaskTracker.Domain.Entities;
+using DevTaskTracker.Infrastructure.Common;
 using DevTaskTracker.Infrastructure.Persistence;
 using DevTaskTracker.Infrastructure.Services;
 using DevTaskTracker.Infrastructure.Utility;
@@ -26,6 +29,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuth, AuthService>();
 builder.Services.AddScoped<IMember, MemberService>();
+builder.Services.AddScoped<ITask, TaskService>();
+
+builder.Services.AddScoped<ICommonImplementations, CommonImplementations>();
+
 
 // Add Identity with default token providers
 builder.Services.AddIdentity<AppUser, IdentityRole>()

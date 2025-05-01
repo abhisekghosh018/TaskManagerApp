@@ -4,5 +4,10 @@
     {
         Open, InProgress, Done
     }
-    
+
+    public enum TaskPriorityEnum
+    {
+        Low, Medium, High
+    }  
+
 }

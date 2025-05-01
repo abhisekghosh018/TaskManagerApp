@@ -22,7 +22,12 @@
         public const string MemberLoginSuccess = "Member login successfull.";
         public const string NoMemberFound = "No member were found.";
         public const string MemberExistsWithEmail = "A member with this email already exists.";
+        #endregion
 
+        #region Task Message
+        public const string TaskCreateSuccess = "A new task created successfull.";
+        public const string TaskCreateFailed = "An error occoured while creating a task.";
+        public const string TaskNotFound = "No Task were found based on query.";
         #endregion
     }
 }

@@ -1,52 +1,51 @@
 ﻿using DevTaskTracker.Application.DTOs.TaskDtos;
-using DevTaskTracker.Domain.Entities;
-using DevTaskTracker.Infrastructure.Persistence;
+using DevTaskTracker.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DevTaskTracker.API.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly AppDbContext _appDbContext;
-        public TasksController(AppDbContext appDbContext) 
-        { 
-            _appDbContext = appDbContext;
+        private readonly ITask _itask;
+        public TasksController(ITask ITask) 
+        {
+            _itask = ITask;
         }
-
         // GET: api/<TasksController>
-        
+        [Authorize(Roles ="SuperAdmin,Admin,OrgAdmin,User")]
         [HttpGet("gettasks")]
-        public async Task<ActionResult<IEnumerable<TaskItem>>> GetTasks()
+        public async Task<IActionResult> GetTasks()
         {
-            return await _appDbContext.TaskItems.Include(t=> t.AssignedToUser).ToListAsync();
+            var result =  await _itask.GetTasksAsync(User);
+            if (!result.IsSuccess) return BadRequest(result.ErrorMessage);
+            return Ok(result.Data);
         }
 
-        
         // POST api/<TasksController>
-       
+        [Authorize(Roles ="SuperAdmin,Admin,OrgAdmin")]
         [HttpPost("createtask")]
-        public async Task<ActionResult<TaskItem>> CreateTask(TaskItemDto dto)
+        public async Task<IActionResult> CreateTask(CreateTaskItemDto dto)
         {
-            var task = new TaskItem
-            {
-                Title = dto.Title,
-                Description = dto.Description,
-                AssignedToUserId = dto.AssignedToUserId
-            };
+            var result = await _itask.CreateTaskAsync(dto);
+            if (!result.IsSuccess) return BadRequest(result.ErrorMessage);                
+            return Ok(result);
+        }
+        //[Authorize(Roles = "SuperAdmin,Admin,OrgAdmin,User")]
+        [HttpGet("filterTasks")]
+        public async Task<IActionResult> FilterTasks(string? priority, string? status, DateTime? dueDate)
+        {
+            var result = await _itask.FilterTasksByIdStstusprioritydueDateAsync(priority,status,dueDate);
 
-            _appDbContext.TaskItems.Add(task);
-            await _appDbContext.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetTasks), new { id = task.Id }, task);
+            if (!result.IsSuccess) return BadRequest(result.ErrorMessage);
+            return Ok(result.Data);
         }
 
-        
     }
 }
