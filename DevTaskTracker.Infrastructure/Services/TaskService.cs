@@ -27,12 +27,16 @@ namespace DevTaskTracker.Infrastructure.Services
         {
             var task = new TaskItem
             {
-                Title = dto.Title,
+                Title = dto.Title ?? "",
                 Description = dto.Description,
                 MemberId = dto.AssignedToMemberId,
                 DueDate = dto.DueDate,
                 Status = dto.Status,
-                Priority = dto.Priority 
+                Priority = dto.Priority,
+                AssignedByUserId = dto.AssignedByUserId,
+                CreatedAt = DateTime.UtcNow,
+                LastUpdatedByUserId= dto.AssignedByUserId,
+                OrganizationId =dto.OrganizationId
             };
 
             _appDbContext.TaskItems.Add(task);

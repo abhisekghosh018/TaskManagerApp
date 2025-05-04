@@ -1,6 +1,3 @@
-
-using CommonQueryes.QueryClass;
-using CommonQueryes.QueryMember;
 using DevTaskTracker.Application.Interfaces;
 using DevTaskTracker.Domain.Entities;
 using DevTaskTracker.Infrastructure.Common;
@@ -10,9 +7,7 @@ using DevTaskTracker.Infrastructure.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

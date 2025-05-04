@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommonQueryes\CommonQueryes.csproj" />
     <ProjectReference Include="..\DevTaskTracker.Application\DevTaskTracker.Application.csproj" />
     <ProjectReference Include="..\DevTaskTracker.Infrastructure\DevTaskTracker.Infrastructure.csproj" />
     <ProjectReference Include="..\DevTaskTracker.Domain\DevTaskTracker.Domain.csproj" />

@@ -11,10 +11,14 @@ namespace DevTaskTracker.Application.DTOs.TaskDtos
     public class CreateTaskItemDto
     {
         [Required]
-        public string Title { get; set; } = string.Empty;
+        public string? Title { get; set; } 
         public string? Description { get; set; }
         [Required]
-        public string? AssignedToMemberId { get; set; }
+        public Guid AssignedToMemberId { get; set; }
+        [Required]
+        public string AssignedByUserId { get; set; }
+        [Required]
+        public string OrganizationId { get; set; }
         [Required]
         public DateTime DueDate { get; set; }
         public TaskStatusEnum Status { get; set; } = TaskStatusEnum.Open;

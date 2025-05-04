@@ -11,7 +11,7 @@ namespace DevTaskTracker.Application.Interfaces
     public interface IMember
     {
         Task<CommonReturnDto> GetAllMembersAsync();
-        Task<CommonReturnDto> GetMembersByIdAsync(string id);
+        Task<CommonReturnDto> GetMembersByIdAsync(Guid id);
         Task<CommonReturnDto> CreateMemberAsync(CreateMemberDto member);
     }
 }
