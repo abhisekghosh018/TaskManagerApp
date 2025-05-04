@@ -31,7 +31,7 @@ namespace DevTaskTracker.API.Controllers
         }
         [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
         [HttpGet("getmemberbyid")]
-        public async Task<IActionResult> GetMemberById(string id)
+        public async Task<IActionResult> GetMemberById(Guid id)
         {
             var result = await _memberService.GetMembersByIdAsync(id);
 

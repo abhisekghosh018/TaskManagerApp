@@ -43,7 +43,7 @@ namespace DevTaskTracker.Infrastructure.Services
                 OrganizationId = dto.OrganizationId
             };
 
-            var createResult = await _userManager.CreateAsync(user, dto.Password);
+            var createResult = await _userManager.CreateAsync(user, dto.Password ?? "");
             if (!createResult.Succeeded)
             {
                 return new CommonReturnDto
@@ -58,7 +58,7 @@ namespace DevTaskTracker.Infrastructure.Services
             // Map DTO to Entity
             var member = new Member
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 FirstName = dto.FirstName ,
                 LastName = dto.LastName,
                 WorkEmail = dto.WorkEmail,
@@ -100,7 +100,7 @@ namespace DevTaskTracker.Infrastructure.Services
             };
         }
 
-        public async Task<CommonReturnDto> GetMembersByIdAsync(string id)
+        public async Task<CommonReturnDto> GetMembersByIdAsync(Guid id)
         {
             var members = await _appDbContext.Members.Include(o=> o.Organization).FirstOrDefaultAsync(o=> o.Id == id);
 

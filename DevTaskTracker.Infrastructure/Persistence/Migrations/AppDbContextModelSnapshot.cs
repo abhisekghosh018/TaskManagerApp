@@ -42,11 +42,9 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -64,6 +62,7 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("OrganizationId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PasswordHash")
@@ -102,8 +101,9 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("DevTaskTracker.Domain.Entities.Member", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -176,8 +176,12 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AppUserId")
+                    b.Property<string>("AssignedByUserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -188,12 +192,32 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("MemberId")
+                    b.Property<double?>("EstimatedHours")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastUpdatedByUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("OrganizationId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Priority")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("SpentHours")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -205,9 +229,13 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AssignedByUserId");
+
+                    b.HasIndex("LastUpdatedByUserId");
 
                     b.HasIndex("MemberId");
+
+                    b.HasIndex("OrganizationId");
 
                     b.ToTable("TaskItems");
                 });
@@ -349,7 +377,9 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                 {
                     b.HasOne("DevTaskTracker.Domain.Entities.Organization", "Organization")
                         .WithMany("Users")
-                        .HasForeignKey("OrganizationId");
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Organization");
                 });
@@ -367,15 +397,37 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("DevTaskTracker.Domain.Entities.TaskItem", b =>
                 {
-                    b.HasOne("DevTaskTracker.Domain.Entities.AppUser", null)
-                        .WithMany("AssignedTask")
-                        .HasForeignKey("AppUserId");
+                    b.HasOne("DevTaskTracker.Domain.Entities.AppUser", "AssignedBy")
+                        .WithMany()
+                        .HasForeignKey("AssignedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DevTaskTracker.Domain.Entities.AppUser", "LastUpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("LastUpdatedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("DevTaskTracker.Domain.Entities.Member", "Member")
                         .WithMany("AssignedTasks")
-                        .HasForeignKey("MemberId");
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DevTaskTracker.Domain.Entities.Organization", "Organization")
+                        .WithMany("Tasks")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignedBy");
+
+                    b.Navigation("LastUpdatedBy");
 
                     b.Navigation("Member");
+
+                    b.Navigation("Organization");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -429,11 +481,6 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DevTaskTracker.Domain.Entities.AppUser", b =>
-                {
-                    b.Navigation("AssignedTask");
-                });
-
             modelBuilder.Entity("DevTaskTracker.Domain.Entities.Member", b =>
                 {
                     b.Navigation("AssignedTasks");
@@ -441,6 +488,8 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("DevTaskTracker.Domain.Entities.Organization", b =>
                 {
+                    b.Navigation("Tasks");
+
                     b.Navigation("Users");
                 });
 #pragma warning restore 612, 618

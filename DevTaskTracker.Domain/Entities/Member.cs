@@ -9,7 +9,7 @@ namespace DevTaskTracker.Domain.Entities
 {
     public class Member
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public Guid Id { get; set; } = Guid.NewGuid();
         [Required]  
         public string FirstName { get; set; }
         [Required]

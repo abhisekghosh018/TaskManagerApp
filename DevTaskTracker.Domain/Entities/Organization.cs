@@ -16,6 +16,8 @@ namespace DevTaskTracker.Domain.Entities
         public string? Contact { get; set; }
         public string? WebSite { get; set; }
 
-        public ICollection<AppUser> Users { get; set; }
+        public virtual ICollection<AppUser> Users { get; set; }
+        public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
+
     }
 }
