@@ -24,6 +24,7 @@ namespace DevTaskTracker.Application.DTOs.MemberDtos
         public string? IP { get; set; }
         [Required]
         public string OrganizationId { get; set; }
+        public string UserId { get; set; }
 
     }
 }

@@ -14,6 +14,7 @@ namespace DevTaskTracker.API.Controllers
     public class TasksController : ControllerBase
     {
         private readonly ITask _itask;
+        
         public TasksController(ITask ITask) 
         {
             _itask = ITask;
@@ -21,9 +22,9 @@ namespace DevTaskTracker.API.Controllers
         // GET: api/<TasksController>
         [Authorize(Roles ="SuperAdmin,Admin,OrgAdmin,User")]
         [HttpGet("gettasks")]
-        public async Task<IActionResult> GetTasks()
+        public async Task<IActionResult> GetTasks(int pageNum)
         {
-            var result =  await _itask.GetTasksAsync(User);
+            var result =  await _itask.GetTasksAsync(User, pageNum);
             if (!result.IsSuccess) return BadRequest(result.ErrorMessage);
             return Ok(result.Data);
         }

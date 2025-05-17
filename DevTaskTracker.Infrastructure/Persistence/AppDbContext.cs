@@ -15,52 +15,56 @@ namespace DevTaskTracker.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure TaskItem
             modelBuilder.Entity<TaskItem>(entity =>
             {
                 entity.HasKey(t => t.Id);
 
-                entity.Property(t => t.Status)
-                      .HasConversion<string>();
+                entity.Property(t => t.Status).HasConversion<string>();
+                entity.Property(t => t.Priority).HasConversion<string>();
 
-                entity.Property(t => t.Priority)
-                      .HasConversion<string>();
-
-                // AssignedBy (AppUser)
                 entity.HasOne(t => t.AssignedBy)
                       .WithMany()
                       .HasForeignKey(t => t.AssignedByUserId)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // LastUpdatedBy (AppUser)
                 entity.HasOne(t => t.LastUpdatedBy)
                       .WithMany()
                       .HasForeignKey(t => t.LastUpdatedByUserId)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // Member (assigned user)
                 entity.HasOne(t => t.Member)
                       .WithMany(m => m.AssignedTasks)
                       .HasForeignKey(t => t.MemberId)
                       .OnDelete(DeleteBehavior.Restrict);
 
-
-                // Organization
                 entity.HasOne(t => t.Organization)
                       .WithMany(o => o.Tasks)
                       .HasForeignKey(t => t.OrganizationId)
-                      .OnDelete(DeleteBehavior.Cascade);
+                      .OnDelete(DeleteBehavior.Restrict);
             });
 
-            // Optional: configure AppUser explicitly to avoid ambiguity
-            //modelBuilder.Entity<AppUser>(entity =>
-            //{
-            //    entity.HasMany(u => u.AssignedTasks)
-            //          .WithOne(t => t.Member)
-            //          .HasForeignKey(t => t.MemberId)
-            //          .OnDelete(DeleteBehavior.Restrict);
-            //});
+            modelBuilder.Entity<Member>(entity =>
+            {
+                entity.HasOne(m => m.Organization)
+                      .WithMany(o => o.Members)
+                      .HasForeignKey(m => m.OrganizationId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(m => m.AppUser)
+                      .WithMany(a => a.Members)
+                      .HasForeignKey(m => m.AppUserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<AppUser>(entity =>
+            {
+                entity.HasOne(u => u.Organization)
+                      .WithMany(o => o.Users)
+                      .HasForeignKey(u => u.OrganizationId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
         }
+
 
 
     }

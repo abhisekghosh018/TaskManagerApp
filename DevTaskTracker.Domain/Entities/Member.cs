@@ -24,10 +24,11 @@ namespace DevTaskTracker.Domain.Entities
         public string? GitRepo { get; set; }
         public string? Status { get; set; }
         
-
         [Required]
         public string OrganizationId { get; set; }
         public Organization Organization { get; set; }
+        public string AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
 
         // Navigation properties
         public virtual ICollection<TaskItem> AssignedTasks { get; set; } = new List<TaskItem>();

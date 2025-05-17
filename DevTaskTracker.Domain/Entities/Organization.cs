@@ -18,6 +18,7 @@ namespace DevTaskTracker.Domain.Entities
 
         public virtual ICollection<AppUser> Users { get; set; }
         public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
+        public ICollection<Member> Members { get; set; } = new List<Member>();
 
     }
 }
