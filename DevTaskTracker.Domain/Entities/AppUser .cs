@@ -14,6 +14,7 @@ namespace DevTaskTracker.Domain.Entities
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string OrganizationId { get; set; }
+        public string? Role { get; set; }
         public Organization? Organization { get; set; }
         
     }

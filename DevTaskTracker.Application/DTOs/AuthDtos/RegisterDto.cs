@@ -16,7 +16,8 @@ namespace DevTaskTracker.Application.DTOs.AuthDtos
         [Required, EmailAddress]
         public string Email { get; set; }
         public string? Contact { get; set; }
-        public string? OrganizationName { get; set; } // Name of the organization           
+        [Required]
+        public string OrganizationName { get; set; } // Name of the organization           
         [Required]
         [MinLength(3), MaxLength(16)]
         public string UserName { get; set; }

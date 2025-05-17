@@ -68,32 +68,33 @@ namespace DevTaskTracker.Infrastructure.Services
             var userRole = user.FindFirst(ClaimTypes.Role)?.Value;
 
             var query = _commonImplementations.GetQueryableIncluding(t=> t.Member);
-            var memberId = query.Select(m => m.MemberId).FirstOrDefault();
-            if (userRole == "User")
-            {
-                var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                query = query.Where(t => t.AssignedByUserId == userId || t.MemberId == memberId);
-            }
-            else
-            {
-                var orgAdminId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                query = query.Where(t => t.AssignedByUserId == orgAdminId);
-            }
+                        
             var totalCount = await query.CountAsync();
-            var pagedTasks = await _commonImplementations.Pagination(query, pageNum);
-                
+            var pagedTasks = await _commonImplementations.Pagination(query, pageNum);            
 
             if (userRole == "User")
             {
-                var result =pagedTasks.Select(t => new GetTaskDto
+                var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                var member = _appDbContext.Members.FirstOrDefault(m => m.AppUserId == userId);
+                if (member != null)
                 {
+                    pagedTasks = pagedTasks.Where(m=> m.MemberId == member.Id).ToList();
+                }
+
+                totalCount = pagedTasks.Count();
+
+                var result =  pagedTasks.Select(t => new GetTaskDto
+                {
+                    Id = t.Id,
                     Title = t.Title,
                     Description = t.Description,
                     MemberName = t.Member?.FirstName + " " + t.Member?.LastName,
                     DueDate = t.DueDate,
                     Status = t.Status.ToString(),
                     Priority = t.Priority.ToString(),
-                    //TotalCount = totalCount,
+                    TotalCount = totalCount,
+
                 }).ToList();
 
                 if (!result.Any())
@@ -128,7 +129,8 @@ namespace DevTaskTracker.Infrastructure.Services
                     AssignedByUserId = t.AssignedByUserId,
                     EstimatedHours = t.EstimatedHours ?? 0,
                     SpentHours = t.SpentHours ?? 0,
-                    //TotalCount = totalCount,
+                    TotalCount = totalCount,
+
                 }).ToList();
 
                 return new CommonReturnDto
