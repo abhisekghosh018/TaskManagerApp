@@ -40,7 +40,7 @@ namespace DevTaskTracker.Infrastructure.Services
                 Email = dto.WorkEmail,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
-                OrganizationId = dto.OrganizationId
+                OrganizationId = dto.OrganizationId,               
             };
 
             var createResult = await _userManager.CreateAsync(user, dto.Password ?? "");

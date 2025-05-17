@@ -26,7 +26,8 @@ builder.Services.AddScoped<IAuth, AuthService>();
 builder.Services.AddScoped<IMember, MemberService>();
 builder.Services.AddScoped<ITask, TaskService>();
 
-builder.Services.AddScoped<ICommonImplementations, CommonImplementations>();
+//builder.Services.AddScoped<ICommonImplementations, CommonImplementations>();
+builder.Services.AddScoped(typeof(ICommonImplementations<>), typeof(CommonImplementations<>));
 
 
 // Add Identity with default token providers

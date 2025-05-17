@@ -105,6 +105,10 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -141,6 +145,8 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("OrganizationId");
 
@@ -378,7 +384,7 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                     b.HasOne("DevTaskTracker.Domain.Entities.Organization", "Organization")
                         .WithMany("Users")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Organization");
@@ -386,11 +392,19 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("DevTaskTracker.Domain.Entities.Member", b =>
                 {
-                    b.HasOne("DevTaskTracker.Domain.Entities.Organization", "Organization")
-                        .WithMany()
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("DevTaskTracker.Domain.Entities.AppUser", "AppUser")
+                        .WithMany("Members")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("DevTaskTracker.Domain.Entities.Organization", "Organization")
+                        .WithMany("Members")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Organization");
                 });
@@ -418,7 +432,7 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                     b.HasOne("DevTaskTracker.Domain.Entities.Organization", "Organization")
                         .WithMany("Tasks")
                         .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("AssignedBy");
@@ -481,6 +495,11 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DevTaskTracker.Domain.Entities.AppUser", b =>
+                {
+                    b.Navigation("Members");
+                });
+
             modelBuilder.Entity("DevTaskTracker.Domain.Entities.Member", b =>
                 {
                     b.Navigation("AssignedTasks");
@@ -488,6 +507,8 @@ namespace DevTaskTracker.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("DevTaskTracker.Domain.Entities.Organization", b =>
                 {
+                    b.Navigation("Members");
+
                     b.Navigation("Tasks");
 
                     b.Navigation("Users");

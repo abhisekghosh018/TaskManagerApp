@@ -11,7 +11,7 @@ namespace DevTaskTracker.Application.Interfaces
 {
     public interface ITask
     {
-        Task<CommonReturnDto>GetTasksAsync(ClaimsPrincipal user);
+        Task<CommonReturnDto>GetTasksAsync(ClaimsPrincipal user, int pageNum);
         Task<CommonReturnDto> CreateTaskAsync(CreateTaskItemDto dto);
         Task<CommonReturnDto> FilterTasksByIdStstusprioritydueDateAsync(string? priority, string? status, DateTime? dueDate);
     }
