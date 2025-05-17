@@ -40,10 +40,10 @@ namespace DevTaskTracker.Infrastructure.Services
                 Email = dto.WorkEmail,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
-                OrganizationId = dto.OrganizationId,               
+                OrganizationId = dto.OrganizationId,              
             };
 
-            var createResult = await _userManager.CreateAsync(user, dto.Password ?? "");
+            var createResult = await _userManager.CreateAsync(user, dto.Password); // Creating password in the AspNetUsers table
             if (!createResult.Succeeded)
             {
                 return new CommonReturnDto
@@ -67,7 +67,9 @@ namespace DevTaskTracker.Infrastructure.Services
                 UpdatedAt = DateTime.UtcNow,
                 IP = dto.IP,
                 GitRepo = dto.GitRepo,
-                OrganizationId = dto.OrganizationId
+                OrganizationId = dto.OrganizationId,
+                // To keep user and member in sync 
+                AppUserId = user.Id,
             };
 
             // Save to database

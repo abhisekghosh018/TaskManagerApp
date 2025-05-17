@@ -16,15 +16,13 @@ namespace DevTaskTracker.Application.DTOs.MemberDtos
         [Required, EmailAddress]
         public string WorkEmail { get; set; }
         [Required]
-        
-        public string? Password { get; set; }
+        public string Password { get; set; }
         [Required]
         public string Role { get; set; }
         public string? GitRepo { get; set; }
         public string? IP { get; set; }
         [Required]
         public string OrganizationId { get; set; }
-        public string UserId { get; set; }
-
+        
     }
 }
