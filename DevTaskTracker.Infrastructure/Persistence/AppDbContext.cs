@@ -64,8 +64,5 @@ namespace DevTaskTracker.Infrastructure.Persistence
                       .OnDelete(DeleteBehavior.Restrict);
             });
         }
-
-
-
     }
 }
