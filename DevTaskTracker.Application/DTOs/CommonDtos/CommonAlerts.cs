@@ -22,6 +22,9 @@
         public const string MemberLoginSuccess = "Member login successfull.";
         public const string NoMemberFound = "No member were found.";
         public const string MemberExistsWithEmail = "A member with this email already exists.";
+
+        public const string MemberUpdated = "Member successfully updated.";
+        public const string MemberUpdatedFaild = "Member update failed.";
         #endregion
 
         #region Task Message

@@ -8,6 +8,9 @@
     public enum TaskPriorityEnum
     {
         Low, Medium, High
-    }  
-
+    }
+    public enum StatusEnum
+    {
+        Active,Inactive,Pnding,Resigned,Unknown
+    }
 }

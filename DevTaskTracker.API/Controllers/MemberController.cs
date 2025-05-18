@@ -1,5 +1,6 @@
 ﻿using DevTaskTracker.Application.DTOs.MemberDtos;
 using DevTaskTracker.Application.Interfaces;
+using DevTaskTracker.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +11,14 @@ namespace DevTaskTracker.API.Controllers
     [ApiController]
     public class MemberController : ControllerBase
     {
-        private readonly IMember _memberService;
+        private readonly IMemberServices _memberService;
         
-        public MemberController(IMember memberService)
+        public MemberController(IMemberServices memberService)
         {
             _memberService = memberService;
         }
 
-        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
+        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
         [HttpGet("getallmembers")]
         public async Task<IActionResult> GetAllMembers()
         {
@@ -29,7 +30,7 @@ namespace DevTaskTracker.API.Controllers
             }
             return BadRequest(result);
         }
-        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
+        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
         [HttpGet("getmemberbyid")]
         public async Task<IActionResult> GetMemberById(Guid id)
         {
@@ -42,7 +43,7 @@ namespace DevTaskTracker.API.Controllers
             return BadRequest(result);
         }
 
-        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
+        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
         [HttpPost("createmember")]
         public async Task<IActionResult> CreateMember(CreateMemberDto dto)
         {

@@ -9,7 +9,8 @@ namespace DevTaskTracker.Application.DTOs.MemberDtos
 {
     public class GetMembersDto
     {        
-        public string FullName { get; set; }               
+        public string FirstName { get; set; }
+        public string lastName { get; set; }
         public string WorkEmail { get; set; }
         public string Role { get; set; }
         public string? GitRepo { get; set; }               
