@@ -49,6 +49,7 @@ namespace DevTaskTracker.Infrastructure.Services
                 PhoneNumber = dto.Contact,
                 Organization = organization, // Link the organization
                 EmailConfirmed = true
+
             };
             // Check Create the Organization if exists
             var existingOrg = await _appDbContext.Set<Organization>()
