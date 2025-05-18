@@ -18,7 +18,7 @@ namespace DevTaskTracker.API.Controllers
             _memberService = memberService;
         }
 
-        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
+        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
         [HttpGet("getallmembers")]
         public async Task<IActionResult> GetAllMembers()
         {
@@ -30,7 +30,7 @@ namespace DevTaskTracker.API.Controllers
             }
             return BadRequest(result);
         }
-        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
+        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
         [HttpGet("getmemberbyid")]
         public async Task<IActionResult> GetMemberById(Guid id)
         {
@@ -43,7 +43,7 @@ namespace DevTaskTracker.API.Controllers
             return BadRequest(result);
         }
 
-        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
         [HttpPost("createmember")]
         public async Task<IActionResult> CreateMember(CreateMemberDto dto)
         {
