@@ -8,5 +8,6 @@ namespace DevTaskTracker.Application.IServices
         Task<CommonReturnDto> GetAllMembersAsync();
         Task<CommonReturnDto> CreateMemberAsync(CreateMemberDto member);
         Task<CommonReturnDto> GetMembersByIdAsync(Guid id);
+        Task<CommonReturnDto> UpdateMemberAsync(UpdateMemberDto member);
     }
 }
