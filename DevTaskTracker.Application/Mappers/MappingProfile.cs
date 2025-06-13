@@ -18,6 +18,9 @@ namespace DevTaskTracker.Application.Mappers
             CreateMap<TaskItem, CreateTaskItemDto>().ReverseMap();
             CreateMap<TaskItem, GetTaskDto>().ReverseMap();
 
+            CreateMap<TaskItem, UpdateStatusDto>().ReverseMap();
+            CreateMap<UpdateStatusDto,TaskItem>().ReverseMap();
+
             //CreateMap<AppUser, RegisterDto>().ReverseMap();
         }
     }
