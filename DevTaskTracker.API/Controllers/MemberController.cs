@@ -1,8 +1,6 @@
 ﻿using DevTaskTracker.Application.DTOs.MemberDtos;
-using DevTaskTracker.Application.Interfaces;
 using DevTaskTracker.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevTaskTracker.API.Controllers
@@ -12,7 +10,7 @@ namespace DevTaskTracker.API.Controllers
     public class MemberController : ControllerBase
     {
         private readonly IMemberServices _memberService;
-        
+
         public MemberController(IMemberServices memberService)
         {
             _memberService = memberService;
@@ -45,17 +43,39 @@ namespace DevTaskTracker.API.Controllers
 
         [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
         [HttpPost("createmember")]
-        public async Task<IActionResult> CreateMember(CreateMemberDto dto)
+        public async Task<IActionResult> CreateMember(CreateMemberDto createMemberDto)
         {
-            var result = await _memberService.CreateMemberAsync(dto);
-
-            if (result.IsSuccess)
+            if (createMemberDto == null)
             {
-                return Ok(result);
+                return BadRequest("Request data is null.");
             }
-            return BadRequest(result);
-        }
 
+            var result = await _memberService.CreateMemberAsync(createMemberDto);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
+        [HttpPut("updatemember")]
+        public async Task<IActionResult> UpdateMember(UpdateMemberDto updateMemberDto)
+        {
+            if (updateMemberDto == null)
+            {
+                return BadRequest("Request data is null.");
+            }
+
+            var result = await _memberService.UpdateMemberAsync(updateMemberDto);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
     }
 
 }

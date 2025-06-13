@@ -36,5 +36,10 @@ namespace DevTaskTracker.Application.Services.Member
         {
             return _member.GetMemberByIdAsync(id);
         }
+
+        public Task<CommonReturnDto> UpdateMemberAsync(UpdateMemberDto member)
+        {
+           return _member.UpdateMemberAsync(member);
+        }
     }
 }
