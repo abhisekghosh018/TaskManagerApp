@@ -1,4 +1,5 @@
-﻿using DevTaskTracker.Application.DTOs.MemberDtos;
+﻿using AutoMapper;
+using DevTaskTracker.Application.DTOs.MemberDtos;
 using DevTaskTracker.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace DevTaskTracker.API.Controllers
     public class MemberController : ControllerBase
     {
         private readonly IMemberServices _memberService;
+        private readonly IMapper _imapper;
 
-        public MemberController(IMemberServices memberService)
+        public MemberController(IMemberServices memberService, IMapper imapper)
         {
             _memberService = memberService;
+            _imapper = imapper;
         }
 
         [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
@@ -49,9 +52,7 @@ namespace DevTaskTracker.API.Controllers
             {
                 return BadRequest("Request data is null.");
             }
-
-            var result = await _memberService.CreateMemberAsync(createMemberDto);
-
+            var result = await _memberService.CreateNewMemberAsync(createMemberDto);
             if (!result.IsSuccess)
             {
                 return BadRequest(result);
@@ -59,6 +60,7 @@ namespace DevTaskTracker.API.Controllers
 
             return Ok(result);
         }
+
         [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
         [HttpPut("updatemember")]
         public async Task<IActionResult> UpdateMember(UpdateMemberDto updateMemberDto)

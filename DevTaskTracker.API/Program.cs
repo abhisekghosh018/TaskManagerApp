@@ -26,9 +26,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Add custom token service
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuth, AuthService>();
-builder.Services.AddScoped<IMember, MemberService>();
+builder.Services.AddScoped<IMemberRepository, MemberServiceRepository>();
 builder.Services.AddScoped<IMemberServices, MemberServices>();
 builder.Services.AddScoped<ITask, TaskService>();
+builder.Services.AddScoped<IEmailChecker, EmailChecker>();
+builder.Services.AddScoped<IUserIdentityService, UserIdentityService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
