@@ -6,7 +6,7 @@ namespace DevTaskTracker.Application.IServices
     public interface IMemberServices
     {
         Task<CommonReturnDto> GetAllMembersAsync();
-        Task<CommonReturnDto> CreateMemberAsync(CreateMemberDto member);
+        Task<CommonReturnDto> CreateNewMemberAsync(CreateMemberDto member);
         Task<CommonReturnDto> GetMembersByIdAsync(Guid id);
         Task<CommonReturnDto> UpdateMemberAsync(UpdateMemberDto member);
     }

@@ -12,76 +12,36 @@ using System.Security.Claims;
 
 namespace DevTaskTracker.Infrastructure.Services
 {
-    public class MemberService : IMember
+    public class MemberServiceRepository : IMemberRepository
     {
         private readonly AppDbContext _appDbContext;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        //private readonly UserManager<AppUser> _userManager;
+        //private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _iMaper;
         private readonly IHttpContextAccessor _iHttpContext;
-        public MemberService(AppDbContext appDbContext,
+        public MemberServiceRepository(AppDbContext appDbContext,
             UserManager<AppUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IMapper iMaper,
             IHttpContextAccessor iHttpContext)
         {
             _appDbContext = appDbContext;
-            _userManager = userManager;
-            _roleManager = roleManager;
+            //_userManager = userManager;
+            //_roleManager = roleManager;
             _iMaper = iMaper;
             _iHttpContext = iHttpContext;
         }
 
-        public async Task<CommonReturnDto> CreateMemberAsync(CreateMemberDto dto)
-        {
-            // Check if email already exists
-            var existing = await _appDbContext.Members
-                                .FirstOrDefaultAsync(m => m.WorkEmail == dto.WorkEmail);
-            if (existing != null)
-            {
-                return new CommonReturnDto
-                {
-                    IsSuccess = false,
-                    ErrorMessage = CommonAlerts.MemberExistsWithEmail,
-                };
-            }
-            // Create Identity user
-
-            var user = new AppUser
-            {
-                UserName = dto.WorkEmail,
-                Email = dto.WorkEmail,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                OrganizationId = dto.OrganizationId,               
-            };
-
-            var createResult = await _userManager.CreateAsync(user, dto.Password); // Creating password in the AspNetUsers table
-            if (!createResult.Succeeded)
-            {
-                return new CommonReturnDto
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "Failed to create Identity user.",
-                    Data = createResult.Errors
-                };
-            }
-            await _userManager.AddToRoleAsync(user, dto.Role);
-
-            // Map DTO to Entity
-            var member = _iMaper.Map<Member>(dto);
-            member.AppUserId = user.Id; // To keep user and member in sync
-            member.Status = StatusEnum.Active.ToString();
-
-            // Save to database
-            _appDbContext.Members.Add(member);
+        public async Task<CommonReturnDto> CreateMemberAsync(Member model)
+        {            
+           var result= _appDbContext.Members.Add(model);
             await _appDbContext.SaveChangesAsync();
 
             return new CommonReturnDto
             {
                 IsSuccess = true,
                 SuccessMessage = CommonAlerts.MemberCreateSuccess,
-                Data = member.Id
+                Data = result,
             };
         }
 
@@ -176,7 +136,7 @@ namespace DevTaskTracker.Infrastructure.Services
                 return new CommonReturnDto
                 {
                     IsSuccess = false,
-                    ErrorMessage = "Failed to update member. Please try again later."
+                    ErrorMessage = "Failed to update member. Please try again later." + ex.Message
                 };
             }
         }
