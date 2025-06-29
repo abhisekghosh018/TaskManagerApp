@@ -9,9 +9,11 @@ using DevTaskTracker.Infrastructure.Services;
 using DevTaskTracker.Infrastructure.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +21,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"),
-        b => b.MigrationsAssembly("DevTaskTracker.Infrastructure") // DbContext is in Infrastructure
+        b => b.MigrationsAssembly("DevTaskTracker.Infrastructure") // DbContext is in Infrastructure 
     )
+    //.LogTo(msg=>File.AppendAllText("ef-queries.text", msg), LogLevel.Information)
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .EnableSensitiveDataLogging()
 );
+// Add Response Compression
+builder.Services.AddResponseCompression();
+
 
 // Add custom token service
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -31,18 +39,31 @@ builder.Services.AddScoped<IMemberServices, MemberServices>();
 builder.Services.AddScoped<ITask, TaskService>();
 builder.Services.AddScoped<IEmailChecker, EmailChecker>();
 builder.Services.AddScoped<IUserIdentityService, UserIdentityService>();
-
+//Add Auto Mapper 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 //builder.Services.AddScoped<ICommonImplementations, CommonImplementations>();
 builder.Services.AddScoped(typeof(ICommonImplementations<>), typeof(CommonImplementations<>));
 
+// In-Memory Cache
+
+builder.Services.AddMemoryCache();
 
 // Add Identity with default token providers
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Taskly", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });       
+});
 
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
@@ -71,9 +92,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Add Rate Liniter
+builder.Services.AddRateLimiter(_=>_.AddFixedWindowLimiter("default", options =>
+{
+    options.PermitLimit = 100;
+    options.Window =TimeSpan.FromSeconds(1);
+    options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    options.QueueLimit = 50;
+}));
 
+// Configure the HTTP request pipeline  // MIddleware
 
 var app = builder.Build();
+
+app.UseCors("Taskly");
 
 using (var scope = app.Services.CreateScope())
 {
@@ -81,15 +113,15 @@ using (var scope = app.Services.CreateScope())
     await RoleSeeder.SeedRolesAsync(services);
 }
 
-// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseRateLimiter();
 app.UseHttpsRedirection();
 
+app.UseResponseCompression();
 app.UseAuthentication();  // IMPORTANT: Use before UseAuthorization
 app.UseAuthorization();
 

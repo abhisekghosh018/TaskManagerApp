@@ -1,0 +1,74 @@
+warn: 6/20/2025 15:20:19.382 CoreEventId.SensitiveDataLoggingEnabledWarning[10400] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.info: 6/20/2025 15:20:20.463 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (42ms) [Parameters=[@__normalizedName_0='SUPERADMIN' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedName_0info: 6/20/2025 15:20:20.585 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (4ms) [Parameters=[@__normalizedName_0='ORGADMIN' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedName_0info: 6/20/2025 15:20:20.662 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='USER' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedName_0info: 6/20/2025 15:20:20.666 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='GUEST' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedName_0info: 6/20/2025 15:20:35.872 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (318ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:20:35.915 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:20:35.946 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (44ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:20:35.978 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (44ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:20:36.025 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (36ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:20:36.167 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (90ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:20:36.306 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (35ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]warn: 6/20/2025 15:22:22.850 CoreEventId.SensitiveDataLoggingEnabledWarning[10400] (Microsoft.EntityFrameworkCore.Infrastructure) 
+      Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data; this mode should only be enabled during development.info: 6/20/2025 15:22:23.610 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (39ms) [Parameters=[@__normalizedName_0='SUPERADMIN' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedName_0info: 6/20/2025 15:22:23.671 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (2ms) [Parameters=[@__normalizedName_0='ORGADMIN' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedName_0info: 6/20/2025 15:22:23.675 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='USER' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedName_0info: 6/20/2025 15:22:23.679 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='GUEST' (Size = 256)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+      FROM [AspNetRoles] AS [a]
+      WHERE [a].[NormalizedName] = @__normalizedName_0info: 6/20/2025 15:22:37.890 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (231ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:22:37.920 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (34ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:22:37.951 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (63ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:22:37.958 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (34ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:22:37.984 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (34ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]info: 6/20/2025 15:22:38.102 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (169ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [m].[Id], [m].[AppUserId], [m].[CreatedAt], [m].[FirstName], [m].[GitRepo], [m].[IP], [m].[LastName], [m].[OrganizationId], [m].[Role], [m].[Status], [m].[UpdatedAt], [m].[WorkEmail]
+      FROM [Members] AS [m]

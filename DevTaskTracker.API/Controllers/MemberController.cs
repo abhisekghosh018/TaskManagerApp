@@ -19,11 +19,11 @@ namespace DevTaskTracker.API.Controllers
             _imapper = imapper;
         }
 
-        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
+       // [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
         [HttpGet("getallmembers")]
-        public async Task<IActionResult> GetAllMembers()
+        public async Task<IActionResult> GetAllMembers(int pageNumber)
         {
-            var result = await _memberService.GetAllMembersAsync();
+            var result = await _memberService.GetAllMembersAsync(pageNumber);
 
             if (result.IsSuccess)
             {
@@ -31,9 +31,9 @@ namespace DevTaskTracker.API.Controllers
             }
             return BadRequest(result);
         }
-        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
+        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
         [HttpGet("getmemberbyid")]
-        public async Task<IActionResult> GetMemberById(Guid id)
+        public async Task<IActionResult> GetMemberById(  Guid id)
         {
             var result = await _memberService.GetMembersByIdAsync(id);
 

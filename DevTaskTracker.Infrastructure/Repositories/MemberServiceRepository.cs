@@ -3,38 +3,40 @@ using DevTaskTracker.Application.DTOs.Common;
 using DevTaskTracker.Application.DTOs.MemberDtos;
 using DevTaskTracker.Application.Interfaces;
 using DevTaskTracker.Domain.Entities;
-using DevTaskTracker.Domain.Enums;
 using DevTaskTracker.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DevTaskTracker.Infrastructure.Services
 {
     public class MemberServiceRepository : IMemberRepository
     {
         private readonly AppDbContext _appDbContext;
-        //private readonly UserManager<AppUser> _userManager;
-        //private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _iMaper;
         private readonly IHttpContextAccessor _iHttpContext;
+        private readonly IMemoryCache _imemoryCache;
         public MemberServiceRepository(AppDbContext appDbContext,
             UserManager<AppUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IMapper iMaper,
-            IHttpContextAccessor iHttpContext)
+            IHttpContextAccessor iHttpContext,
+            IMemoryCache memoryCache)
         {
             _appDbContext = appDbContext;
             //_userManager = userManager;
             //_roleManager = roleManager;
             _iMaper = iMaper;
             _iHttpContext = iHttpContext;
+            _imemoryCache = memoryCache;
         }
 
         public async Task<CommonReturnDto> CreateMemberAsync(Member model)
-        {            
-           var result= _appDbContext.Members.Add(model);
+        {
+            var result = _appDbContext.Members.Add(model);
             await _appDbContext.SaveChangesAsync();
 
             return new CommonReturnDto
@@ -45,9 +47,35 @@ namespace DevTaskTracker.Infrastructure.Services
             };
         }
 
-        public async Task<CommonReturnDto> GetAllMembersAsync()
+        public async Task<CommonReturnDto> GetAllMembersAsync(int pagenumber)
         {
-            var members = await _appDbContext.Members.ToListAsync();
+
+            string cacheKey = $"member_pages_{pagenumber}";
+
+            if (_imemoryCache.TryGetValue(cacheKey, out List<object>? cachedMembers))
+            {
+
+                return new CommonReturnDto
+                {
+                    Data = cachedMembers!,
+                    IsSuccess = true,
+                    TotalCount = cachedMembers.Count(),
+                };
+            }
+            int totalCount = await _appDbContext.Members.CountAsync();
+            var members = await _appDbContext.Members
+                .AsNoTracking()
+                .OrderBy(x => x.Id)
+                .Skip((pagenumber - 1) * 10).Take(10)
+                .Select(m => new
+                {
+                    m.Id,
+                    m.FirstName,
+                    m.LastName,
+                    m.WorkEmail,
+                    m.Role,
+
+                }).ToListAsync();
             if (members == null || members.Count == 0)
             {
                 return new CommonReturnDto
@@ -56,12 +84,26 @@ namespace DevTaskTracker.Infrastructure.Services
                     ErrorMessage = CommonAlerts.NoMemberFound,
                 };
             }
+
+            // Optional: Customize cache duration
+            var cacheOptions = new MemoryCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromSeconds(60));
+
+            _imemoryCache.Set(cacheKey, members, cacheOptions);
+
             return new CommonReturnDto
             {
-                Data = members.ToList(),
-                IsSuccess = true
+                Data = members,
+                IsSuccess = true,
+                TotalCount = totalCount,
             };
         }
+
+        public IQueryable<Member> GetAllMember()
+        {
+            var member = _appDbContext.Members.AsNoTracking();
+            return member;   
+        } 
 
         public async Task<CommonReturnDto> GetMemberByIdAsync(Guid id)
         {
@@ -130,7 +172,7 @@ namespace DevTaskTracker.Infrastructure.Services
                     Data = existingMember.Id // Or a safe DTO instead of full model
                 };
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateConcurrencyException ex)
             {
                 // 5. Optional: Log this with a logger
                 return new CommonReturnDto
@@ -140,6 +182,8 @@ namespace DevTaskTracker.Infrastructure.Services
                 };
             }
         }
+
+        
 
     }
 }

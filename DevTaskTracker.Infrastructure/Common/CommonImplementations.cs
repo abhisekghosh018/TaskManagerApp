@@ -59,7 +59,6 @@ namespace DevTaskTracker.Infrastructure.Common
         {
             if (pageNum < 1)
                 pageNum = 1;
-
             return await query
             .Skip((pageNum - 1) * 10)
             .Take(10)
