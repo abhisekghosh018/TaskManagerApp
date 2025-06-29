@@ -86,7 +86,7 @@ namespace DevTaskTracker.Application.Services.Member
             return await _member.GetAllMembersAsync(pageNumber);
         }
 
-        public async Task<CommonReturnDto> FilterMembers(string firstName, string lastName, string email, int page)
+        public async Task<CommonReturnDto> FilterMembers(string? firstName, string? lastName, string? email, int page)
         {
             const int PageSize = 10;
 
