@@ -23,6 +23,8 @@ namespace DevTaskTracker.Domain.Entities
         public string? IP { get; set; }
         public string? GitRepo { get; set; }
         public string? Status { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
         
         [Required]
         public string OrganizationId { get; set; }
