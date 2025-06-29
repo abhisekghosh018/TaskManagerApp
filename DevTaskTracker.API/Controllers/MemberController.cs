@@ -3,6 +3,7 @@ using DevTaskTracker.Application.DTOs.MemberDtos;
 using DevTaskTracker.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace DevTaskTracker.API.Controllers
 {
@@ -78,6 +79,20 @@ namespace DevTaskTracker.API.Controllers
             }
             return Ok(result);
         }
+
+        [HttpGet("filterMember")]
+        public async Task<IActionResult> FilterMember(string? firstName, string? lastName, string? email, int page)
+        {
+           var filteredMember= await _memberService.FilterMembers(firstName, lastName, email, page);
+
+            if(filteredMember.IsSuccess)
+            {
+                return Ok(filteredMember);
+                
+            }
+            return BadRequest(filteredMember);
+        }
+        
     }
 
 }
