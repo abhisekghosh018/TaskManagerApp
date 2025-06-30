@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DevTaskTracker.Infrastructure.Services
 {
@@ -74,8 +74,11 @@ namespace DevTaskTracker.Infrastructure.Services
                     m.LastName,
                     m.WorkEmail,
                     m.Role,
-
+                    m.Status,                   
                 }).ToListAsync();
+                
+               
+
             if (members == null || members.Count == 0)
             {
                 return new CommonReturnDto
@@ -119,6 +122,7 @@ namespace DevTaskTracker.Infrastructure.Services
             }
 
             var dto = _iMaper.Map<GetMembersDto>(members);
+            dto.RowVersion = Base64UrlEncoder.Encode( members.RowVersion);
 
             return new CommonReturnDto
             {
@@ -127,7 +131,6 @@ namespace DevTaskTracker.Infrastructure.Services
             };
 
         }
-
         public async Task<CommonReturnDto> UpdateMemberAsync(UpdateMemberDto dto)
         {
             // 1. Securely extract current user and role
@@ -182,8 +185,6 @@ namespace DevTaskTracker.Infrastructure.Services
                 };
             }
         }
-
-        
 
     }
 }
