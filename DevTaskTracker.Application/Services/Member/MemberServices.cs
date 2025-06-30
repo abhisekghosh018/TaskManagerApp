@@ -210,6 +210,7 @@ namespace DevTaskTracker.Application.Services.Member
         public Task<CommonReturnDto> GetMembersByIdAsync(Guid id)
         {
             return _member.GetMemberByIdAsync(id);
+                     
         }
 
         public Task<CommonReturnDto> UpdateMemberAsync(UpdateMemberDto member)
