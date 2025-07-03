@@ -74,7 +74,8 @@ namespace DevTaskTracker.Infrastructure.Services
                     m.LastName,
                     m.WorkEmail,
                     m.Role,
-                    m.Status,                   
+                    m.Status,    
+                    m.IsActive
                 }).ToListAsync();
                 
                
@@ -122,6 +123,7 @@ namespace DevTaskTracker.Infrastructure.Services
             }
 
             var dto = _iMaper.Map<GetMembersDto>(members);
+            dto.IsActive = members.IsActive;
             dto.RowVersion = Base64UrlEncoder.Encode( members.RowVersion);
 
             return new CommonReturnDto
@@ -137,18 +139,23 @@ namespace DevTaskTracker.Infrastructure.Services
             var user = _iHttpContext.HttpContext?.User;
             var userRole = user?.FindFirst(ClaimTypes.Role)?.Value;
 
-            if (string.IsNullOrEmpty(userRole) || !(userRole == "Admin" || userRole == "OrgAdmin"))
-            {
-                return new CommonReturnDto
-                {
-                    IsSuccess = false,
-                    ErrorMessage = CommonAlerts.MemberUpdatedFaild
-                };
-            }
+            //if (string.IsNullOrEmpty(userRole) || !(userRole == "Admin" || userRole == "OrgAdmin"))
+            //{
+            //    return new CommonReturnDto
+            //    {
+            //        IsSuccess = false,
+            //        ErrorMessage = CommonAlerts.MemberUpdatedFaild
+            //    };
+            //}
+
+            
 
             // 2. Retrieve existing member safely
             var existingMember = await _appDbContext.Members
                                         .FirstOrDefaultAsync(m => m.Id == dto.Id);
+            // Check for RowVersion
+            var bytesOfRowVersion = Base64UrlEncoder.DecodeBytes(dto.RowVersion);
+            _appDbContext.Entry(existingMember).Property(r => r.RowVersion).OriginalValue = bytesOfRowVersion!;
 
             if (existingMember == null)
             {
@@ -160,6 +167,7 @@ namespace DevTaskTracker.Infrastructure.Services
             }
 
             // 3. Map allowed fields only (without overwriting tracked entity)
+            
             _iMaper.Map(dto, existingMember);
             existingMember.UpdatedAt = DateTime.UtcNow;
 

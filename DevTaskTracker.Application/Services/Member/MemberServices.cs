@@ -65,7 +65,7 @@ namespace DevTaskTracker.Application.Services.Member
             //Map DTO to Entity
             var member = _imapper.Map<DevTaskTracker.Domain.Entities.Member>(dto);
             member.AppUserId = user.Id; // To keep user and member in sync
-            member.Status = StatusEnum.Active.ToString();
+            member.IsActive = true;
 
             await _member.CreateMemberAsync(member);
 

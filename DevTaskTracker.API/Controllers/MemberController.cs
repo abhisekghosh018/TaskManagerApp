@@ -62,7 +62,7 @@ namespace DevTaskTracker.API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
+        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
         [HttpPut("updatemember")]
         public async Task<IActionResult> UpdateMember(UpdateMemberDto updateMemberDto)
         {
