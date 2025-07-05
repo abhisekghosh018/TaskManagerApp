@@ -132,8 +132,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run("https://0.0.0.0:7215");
-//app.Run("http://0.0.0.0:5000");// For Docker config
+//app.Run("https://0.0.0.0:7215");
+app.Run("http://0.0.0.0:5000");// For Docker config
 
 
 
