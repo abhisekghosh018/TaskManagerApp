@@ -89,6 +89,10 @@ namespace DevTaskTracker.Application.Services.Member
         public async Task<CommonReturnDto> FilterMembers(string? firstName, string? lastName, string? email, int page)
         {
             const int PageSize = 10;
+            if(page == 0)
+                page = 1;
+            
+            
 
             var memberQuery = _member.GetAllMember(); // Removed Async suffix
 

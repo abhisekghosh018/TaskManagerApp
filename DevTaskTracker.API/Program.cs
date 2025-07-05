@@ -118,7 +118,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseRateLimiter();
+else
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+    app.UseRateLimiter();
 app.UseHttpsRedirection();
 
 app.UseResponseCompression();
@@ -127,7 +132,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.Run("https://0.0.0.0:7215");
+//app.Run("http://0.0.0.0:5000");// For Docker config
 
 
 
