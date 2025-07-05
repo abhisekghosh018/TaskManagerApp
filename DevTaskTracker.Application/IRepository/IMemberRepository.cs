@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace DevTaskTracker.Application.Interfaces
 {
-    public interface IMember
+    public interface IMemberRepository
     {
-        Task<CommonReturnDto> GetAllMembersAsync();
-        Task<CommonReturnDto> GetMemberByIdAsync(Guid id);
-        Task<CommonReturnDto> CreateMemberAsync(CreateMemberDto member);
+        Task<CommonReturnDto> GetAllMembersAsync(int pageNumber);
+        Task<CommonReturnDto> GetMemberByIdAsync(Guid  id);
+        Task<CommonReturnDto> CreateMemberAsync(Member member);
         Task<CommonReturnDto> UpdateMemberAsync(UpdateMemberDto member);
+        IQueryable<Member> GetAllMember();
     }
 }

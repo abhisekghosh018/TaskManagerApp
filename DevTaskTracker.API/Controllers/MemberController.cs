@@ -1,9 +1,9 @@
-﻿using DevTaskTracker.Application.DTOs.MemberDtos;
-using DevTaskTracker.Application.Interfaces;
+﻿using AutoMapper;
+using DevTaskTracker.Application.DTOs.MemberDtos;
 using DevTaskTracker.Application.IServices;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace DevTaskTracker.API.Controllers
 {
@@ -12,17 +12,19 @@ namespace DevTaskTracker.API.Controllers
     public class MemberController : ControllerBase
     {
         private readonly IMemberServices _memberService;
-        
-        public MemberController(IMemberServices memberService)
+        private readonly IMapper _imapper;
+
+        public MemberController(IMemberServices memberService, IMapper imapper)
         {
             _memberService = memberService;
+            _imapper = imapper;
         }
 
-        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
+       // [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
         [HttpGet("getallmembers")]
-        public async Task<IActionResult> GetAllMembers()
+        public async Task<IActionResult> GetAllMembers(int pageNumber)
         {
-            var result = await _memberService.GetAllMembersAsync();
+            var result = await _memberService.GetAllMembersAsync(pageNumber);
 
             if (result.IsSuccess)
             {
@@ -30,9 +32,9 @@ namespace DevTaskTracker.API.Controllers
             }
             return BadRequest(result);
         }
-        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
+        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin,User")]
         [HttpGet("getmemberbyid")]
-        public async Task<IActionResult> GetMemberById(Guid id)
+        public async Task<IActionResult> GetMemberById(  Guid id)
         {
             var result = await _memberService.GetMembersByIdAsync(id);
 
@@ -45,17 +47,52 @@ namespace DevTaskTracker.API.Controllers
 
         [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
         [HttpPost("createmember")]
-        public async Task<IActionResult> CreateMember(CreateMemberDto dto)
+        public async Task<IActionResult> CreateMember(CreateMemberDto createMemberDto)
         {
-            var result = await _memberService.CreateMemberAsync(dto);
-
-            if (result.IsSuccess)
+            if (createMemberDto == null)
             {
-                return Ok(result);
+                return BadRequest("Request data is null.");
             }
-            return BadRequest(result);
+            var result = await _memberService.CreateNewMemberAsync(createMemberDto);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
+        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
+        [HttpPut("updatemember")]
+        public async Task<IActionResult> UpdateMember(UpdateMemberDto updateMemberDto)
+        {
+            if (updateMemberDto == null)
+            {
+                return BadRequest("Request data is null.");
+            }
+
+            var result = await _memberService.UpdateMemberAsync(updateMemberDto);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("filterMember")]
+        public async Task<IActionResult> FilterMember(string? firstName, string? lastName, string? email, int page)
+        {
+           var filteredMember= await _memberService.FilterMembers(firstName, lastName, email, page);
+
+            if(filteredMember.IsSuccess)
+            {
+                return Ok(filteredMember);
+                
+            }
+            return BadRequest(filteredMember);
+        }
+        
     }
 
 }

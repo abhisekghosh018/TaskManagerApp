@@ -14,5 +14,6 @@ namespace DevTaskTracker.Application.Interfaces
         Task<CommonReturnDto>GetTasksAsync(ClaimsPrincipal user, int pageNum);
         Task<CommonReturnDto> CreateTaskAsync(CreateTaskItemDto dto);
         Task<CommonReturnDto> FilterTasksByIdStstusprioritydueDateAsync(string? priority, string? status, DateTime? dueDate);
+        Task<CommonReturnDto> UpdateTaskStatusAsync(UpdateStatusDto dto);
     }
 }
