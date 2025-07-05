@@ -31,6 +31,8 @@
         public const string TaskCreateSuccess = "A new task created successfull.";
         public const string TaskCreateFailed = "An error occoured while creating a task.";
         public const string TaskNotFound = "No Task were found based on query.";
+        public const string TaskStatusUpdatedSuccessMessage = "Status updated successfully.";
+        public const string TaskStatusUpdatedErrorMessage = "Status update failed.";
         #endregion
     }
 }

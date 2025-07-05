@@ -17,6 +17,9 @@ namespace DevTaskTracker.Application.DTOs.MemberDtos
         public string Organization { get; set; }
         public string OrganizationId { get; set; }
         public string Status { get; set; }
+        public string RowVersion { get; set; }
+        public bool IsActive { get; set; }
+        public int  TotalCount { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

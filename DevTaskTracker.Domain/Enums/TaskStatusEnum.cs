@@ -2,7 +2,7 @@
 {
     public enum TaskStatusEnum
     {
-        Open, InProgress, Done
+        Open, InProgress,InReview,Done,
     }
 
     public enum TaskPriorityEnum
