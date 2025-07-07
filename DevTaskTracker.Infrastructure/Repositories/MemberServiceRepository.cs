@@ -36,6 +36,7 @@ namespace DevTaskTracker.Infrastructure.Services
 
         public async Task<CommonReturnDto> CreateMemberAsync(Member model)
         {
+            
             var result = _appDbContext.Members.Add(model);
             await _appDbContext.SaveChangesAsync();
 
