@@ -1,11 +1,15 @@
+using DevTaskTracker.Application.IdentityService;
 using DevTaskTracker.Application.Interfaces;
 using DevTaskTracker.Application.IServices;
+using DevTaskTracker.Application.IUnitOfWork;
 using DevTaskTracker.Application.Mappers;
 using DevTaskTracker.Application.Services.Member;
 using DevTaskTracker.Domain.Entities;
 using DevTaskTracker.Infrastructure.Common;
+using DevTaskTracker.Infrastructure.IdentityService;
 using DevTaskTracker.Infrastructure.Persistence;
 using DevTaskTracker.Infrastructure.Services;
+using DevTaskTracker.Infrastructure.UnitOfWork;
 using DevTaskTracker.Infrastructure.Utility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -32,6 +36,9 @@ builder.Services.AddResponseCompression();
 
 
 // Add custom token service
+
+builder.Services.AddScoped<IUnitWork, UnitWork>();
+builder.Services.AddScoped<IIdentityService, IdentityServices>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuth, AuthService>();
 builder.Services.AddScoped<IMemberRepository, MemberServiceRepository>();
@@ -132,8 +139,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//app.Run("https://0.0.0.0:7215");
-app.Run("http://0.0.0.0:5000");// For Docker config
+app.Run("https://0.0.0.0:7215");
+//app.Run("http://0.0.0.0:5000");// For Docker config
 
 
 

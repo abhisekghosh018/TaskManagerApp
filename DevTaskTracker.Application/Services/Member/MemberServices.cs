@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using DevTaskTracker.Application.DTOs.Common;
 using DevTaskTracker.Application.DTOs.MemberDtos;
+using DevTaskTracker.Application.IdentityService;
 using DevTaskTracker.Application.Interfaces;
 using DevTaskTracker.Application.IServices;
+using DevTaskTracker.Application.IUnitOfWork;
 using DevTaskTracker.Domain.Entities;
 using DevTaskTracker.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +17,21 @@ namespace DevTaskTracker.Application.Services.Member
         private readonly IMapper _imapper;
         private readonly IEmailChecker _emailChecker;
         private readonly IUserIdentityService _iuserIdentityService;
+        private readonly IUnitWork _iUnitWork;
+        private readonly IIdentityService _identityService;
+
         public MemberServices(IMemberRepository member, IMapper mapper,
-            IEmailChecker emailChecker, IUserIdentityService userIdentityService)
+            IEmailChecker emailChecker, IUserIdentityService userIdentityService, IUnitWork iUnitWork,
+            IIdentityService identityService)
         {
             _member = member;
             _imapper = mapper;
             _emailChecker = emailChecker;
             _iuserIdentityService = userIdentityService;
+            _iUnitWork = iUnitWork;
+            _identityService = identityService;
         }
-
+        #region Post Methods
         public async Task<CommonReturnDto> CreateNewMemberAsync(CreateMemberDto dto)
         {
             //Check if email already exists
@@ -43,42 +51,58 @@ namespace DevTaskTracker.Application.Services.Member
                 Email = dto.WorkEmail,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
-                OrganizationId = dto.OrganizationId,
+                OrganizationId = "0d70645d-0af8-4916-a2a6-782b507d3088" //dto.OrganizationId, have to change the organization 
             };
-            //MOVED To
 
 
-            var result = await _iuserIdentityService.CreateUserAsync(user, dto.Password, dto.Role);
+            await _iUnitWork.BeginTransaction();
+            var result = await _iuserIdentityService.CreateUserAsync(user, dto.Password, dto.Role = "User");
 
-            //var createResult = await _userManager.CreateAsync(user, dto.Password); // Creating password in the AspNetUsers table
             if (result.UserId == null)
             {
                 return new CommonReturnDto
                 {
                     IsSuccess = false,
-                    ErrorMessage = "Failed to create Identity user.",
+                    ErrorMessage = $"Failed to create Identity user.{result.Errors}",
                     Data = result.Errors
                 };
             }
-            //await _userManager.AddToRoleAsync(user, dto.Role);
 
-            //Map DTO to Entity
-            var member = _imapper.Map<DevTaskTracker.Domain.Entities.Member>(dto);
+            var member = _imapper.Map<Domain.Entities.Member>(dto);
             member.AppUserId = user.Id; // To keep user and member in sync
             member.IsActive = true;
+            member.OrganizationId = user.OrganizationId;
 
-            await _member.CreateMemberAsync(member);
-
-            var newMember = _imapper.Map<CreateMemberDto>(member);
-
-            return new CommonReturnDto
+            try
             {
-                IsSuccess = true,
-                ErrorMessage = CommonAlerts.MemberCreateSuccess,
-                Data = newMember
-            };
+                await _member.CreateMemberAsync(member);
+                await _iUnitWork.CommitTransaction();
+                return new CommonReturnDto
+                {
+                    IsSuccess = true,
+                    SuccessMessage = CommonAlerts.MemberCreateSuccess,                   
+                };
+            }
+            catch (Exception ex)
+            {               
+                await _iUnitWork.RollbackTransaction();
+                return new CommonReturnDto
+                {
+                    IsSuccess = false,
+                    ErrorMessage = $"Failed to create new member.{ex.Message}",                   
+                };
+            }
+
+           
         }
 
+        public Task<CommonReturnDto> UpdateMemberAsync(UpdateMemberDto member)
+        {
+            return _member.UpdateMemberAsync(member);
+        }
+        #endregion
+
+        #region Get Methos
         public async Task<CommonReturnDto> GetAllMembersAsync(int pageNumber)
         {
             if (pageNumber < 1)
@@ -89,10 +113,10 @@ namespace DevTaskTracker.Application.Services.Member
         public async Task<CommonReturnDto> FilterMembers(string? firstName, string? lastName, string? email, int page)
         {
             const int PageSize = 10;
-            if(page == 0)
+            if (page == 0)
                 page = 1;
-            
-            
+
+
 
             var memberQuery = _member.GetAllMember(); // Removed Async suffix
 
@@ -214,12 +238,9 @@ namespace DevTaskTracker.Application.Services.Member
         public Task<CommonReturnDto> GetMembersByIdAsync(Guid id)
         {
             return _member.GetMemberByIdAsync(id);
-                     
-        }
 
-        public Task<CommonReturnDto> UpdateMemberAsync(UpdateMemberDto member)
-        {
-            return _member.UpdateMemberAsync(member);
         }
+        #endregion
+
     }
 }
