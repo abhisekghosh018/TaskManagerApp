@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using DevTaskTracker.Application.DTOs.MemberDtos;
 using DevTaskTracker.Application.IServices;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 
 namespace DevTaskTracker.API.Controllers
 {
