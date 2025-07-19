@@ -45,7 +45,7 @@ namespace DevTaskTracker.API.Controllers
             return BadRequest(result);
         }
 
-        [Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
+        //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
         [HttpPost("createmember")]
         public async Task<IActionResult> CreateMember(CreateMemberDto createMemberDto)
         {
