@@ -76,7 +76,8 @@ namespace DevTaskTracker.Infrastructure.Services
                     m.WorkEmail,
                     m.Role,
                     m.Status,    
-                    m.IsActive
+                    m.IsActive,
+                    m.ImageUrl
                 }).ToListAsync();
                 
                

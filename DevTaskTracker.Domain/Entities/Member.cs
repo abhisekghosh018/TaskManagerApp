@@ -18,6 +18,7 @@ namespace DevTaskTracker.Domain.Entities
         public string WorkEmail { get; set; } // Act as user name        
         [Required]  
         public string Role { get; set; }
+        public string ImageUrl { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public string? IP { get; set; }

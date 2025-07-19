@@ -7,7 +7,9 @@ using DevTaskTracker.Application.IServices;
 using DevTaskTracker.Application.IUnitOfWork;
 using DevTaskTracker.Domain.Entities;
 using DevTaskTracker.Domain.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Formats.Asn1;
 
 namespace DevTaskTracker.Application.Services.Member
 {
@@ -19,10 +21,11 @@ namespace DevTaskTracker.Application.Services.Member
         private readonly IUserIdentityService _iuserIdentityService;
         private readonly IUnitWork _iUnitWork;
         private readonly IIdentityService _identityService;
+        private readonly IImageuploadService _imageuploadService;
 
         public MemberServices(IMemberRepository member, IMapper mapper,
             IEmailChecker emailChecker, IUserIdentityService userIdentityService, IUnitWork iUnitWork,
-            IIdentityService identityService)
+            IIdentityService identityService, IImageuploadService imageuploadService)
         {
             _member = member;
             _imapper = mapper;
@@ -30,6 +33,7 @@ namespace DevTaskTracker.Application.Services.Member
             _iuserIdentityService = userIdentityService;
             _iUnitWork = iUnitWork;
             _identityService = identityService;
+            _imageuploadService = imageuploadService;
         }
         #region Post Methods
         public async Task<CommonReturnDto> CreateNewMemberAsync(CreateMemberDto dto)
@@ -96,6 +100,22 @@ namespace DevTaskTracker.Application.Services.Member
            
         }
 
+        public async Task<CommonReturnDto> MemberFileImageUoloadAsync(IFormFile file)
+        {
+            if (file == null)
+            {
+                return new CommonReturnDto
+                {
+                    IsSuccess = false,
+                };
+            }
+            var imageUploadUrl = await _imageuploadService.UploadImageAsync(file);
+            return new CommonReturnDto
+            {
+                IsSuccess = true,
+                Data = imageUploadUrl,
+            };
+        }
         public Task<CommonReturnDto> UpdateMemberAsync(UpdateMemberDto member)
         {
             return _member.UpdateMemberAsync(member);
@@ -232,14 +252,13 @@ namespace DevTaskTracker.Application.Services.Member
 
 
         //}
-
-
-
-        public Task<CommonReturnDto> GetMembersByIdAsync(Guid id)
+        public async Task<CommonReturnDto> GetMembersByIdAsync(Guid id)
         {
-            return _member.GetMemberByIdAsync(id);
+            return await _member.GetMemberByIdAsync(id);
 
         }
+
+        
         #endregion
 
     }

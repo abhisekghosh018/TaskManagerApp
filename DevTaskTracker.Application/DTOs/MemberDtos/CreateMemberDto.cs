@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,10 +17,13 @@ namespace DevTaskTracker.Application.DTOs.MemberDtos
         [Required, EmailAddress]
         public string WorkEmail { get; set; }
         [Required]
-        public string Password { get; set; }       
-        public string Role { get; set; }
+        public string Password { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? Role { get; set; }
         public string? GitRepo { get; set; }       
         //public string OrganizationId { get; set; }
+        public IFormFile? File { get; set; }
+
         
     }
 }

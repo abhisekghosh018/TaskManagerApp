@@ -53,6 +53,10 @@ namespace DevTaskTracker.API.Controllers
             {
                 return BadRequest("Request data is null.");
             }
+
+             var  memberImageUrl= await _memberService.MemberFileImageUoloadAsync(createMemberDto.File!);
+
+            createMemberDto.ImageUrl = memberImageUrl?.Data?.ToString();
             var result = await _memberService.CreateNewMemberAsync(createMemberDto);
             if (!result.IsSuccess)
             {

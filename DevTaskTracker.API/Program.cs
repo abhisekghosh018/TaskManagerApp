@@ -37,6 +37,7 @@ builder.Services.AddResponseCompression();
 
 // Add custom token service
 
+#region ----------------------------Internal Services-------------------------------
 builder.Services.AddScoped<IUnitWork, UnitWork>();
 builder.Services.AddScoped<IIdentityService, IdentityServices>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -46,6 +47,13 @@ builder.Services.AddScoped<IMemberServices, MemberServices>();
 builder.Services.AddScoped<ITask, TaskService>();
 builder.Services.AddScoped<IEmailChecker, EmailChecker>();
 builder.Services.AddScoped<IUserIdentityService, UserIdentityService>();
+#endregion
+// External Service 
+#region ---------------------------------------------------External Services-------------------------------
+builder.Services.AddScoped<IImageuploadService, ImageUploadService>();
+#endregion
+
+
 //Add Auto Mapper 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 

@@ -22,5 +22,6 @@ namespace DevTaskTracker.Application.DTOs.MemberDtos
         public int  TotalCount { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public string ImageUrl { get; set; }    
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DevTaskTracker.Application.DTOs.Common;
 using DevTaskTracker.Application.DTOs.MemberDtos;
+using Microsoft.AspNetCore.Http;
 
 namespace DevTaskTracker.Application.IServices
 {
@@ -10,5 +11,6 @@ namespace DevTaskTracker.Application.IServices
         Task<CommonReturnDto> GetMembersByIdAsync(Guid id);
         Task<CommonReturnDto> UpdateMemberAsync(UpdateMemberDto member);
         Task<CommonReturnDto> FilterMembers(string? firstName, string? lastName, string? email, int page);
+        Task<CommonReturnDto> MemberFileImageUoloadAsync(IFormFile file);
     }
 }
