@@ -65,6 +65,7 @@ namespace DevTaskTracker.API.Controllers
         }
 
         //[Authorize(Roles = "SuperAdmin,OrgAdmin,Admin")]
+        //
         [HttpPut("updatemember")]
         public async Task<IActionResult> UpdateMember(UpdateMemberDto updateMemberDto)
         {
