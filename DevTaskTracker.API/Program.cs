@@ -1,3 +1,4 @@
+using DevTaskTracker.API.ErrorHandling;
 using DevTaskTracker.Application.IdentityService;
 using DevTaskTracker.Application.Interfaces;
 using DevTaskTracker.Application.IServices;
@@ -144,7 +145,7 @@ app.UseHttpsRedirection();
 app.UseResponseCompression();
 app.UseAuthentication();  // IMPORTANT: Use before UseAuthorization
 app.UseAuthorization();
-
+app.UseMiddleware<GlobalExceptionMiddleware>();
 app.MapControllers();
 
 app.Run("https://0.0.0.0:7215");
