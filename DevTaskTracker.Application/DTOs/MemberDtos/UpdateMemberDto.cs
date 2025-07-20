@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 
 namespace DevTaskTracker.Application.DTOs.MemberDtos
@@ -11,13 +13,14 @@ namespace DevTaskTracker.Application.DTOs.MemberDtos
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-        //public string? Status { get; set; }       
         public string Role { get; set; }
-        public string Email { get; set; }
+        [Required]
+        public string WorkEmail { get; set; }
         public string? GitRepo { get; set; }      
-
         public bool IsActive { get; set; }
-        //public string? IP { get; set; }       
         public string RowVersion { get; set; }
+        public string? ImageUrl {  get; set; }
+
+        public IFormFile? File { get; set; } 
     }
 }

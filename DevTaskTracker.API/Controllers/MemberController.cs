@@ -54,7 +54,7 @@ namespace DevTaskTracker.API.Controllers
 
              var  memberImageUrl= await _memberService.MemberFileImageUoloadAsync(createMemberDto.File!);
 
-            createMemberDto.ImageUrl = memberImageUrl?.Data?.ToString();
+            createMemberDto.ImageUrl = memberImageUrl.Data?.ToString();
             var result = await _memberService.CreateNewMemberAsync(createMemberDto);
             if (!result.IsSuccess)
             {
@@ -71,6 +71,13 @@ namespace DevTaskTracker.API.Controllers
             if (updateMemberDto == null)
             {
                 return BadRequest("Request data is null.");
+            }
+
+
+            var memberImageUrl = await _memberService.MemberFileImageUoloadAsync(updateMemberDto.File!);
+            if (memberImageUrl.IsSuccess)
+            {
+                updateMemberDto.ImageUrl = memberImageUrl.Data?.ToString();
             }
 
             var result = await _memberService.UpdateMemberAsync(updateMemberDto);

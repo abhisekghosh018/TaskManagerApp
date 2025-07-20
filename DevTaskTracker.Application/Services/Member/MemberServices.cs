@@ -137,7 +137,6 @@ namespace DevTaskTracker.Application.Services.Member
                 page = 1;
 
 
-
             var memberQuery = _member.GetAllMember(); // Removed Async suffix
 
             if (!string.IsNullOrEmpty(firstName))
@@ -255,11 +254,7 @@ namespace DevTaskTracker.Application.Services.Member
         public async Task<CommonReturnDto> GetMembersByIdAsync(Guid id)
         {
             return await _member.GetMemberByIdAsync(id);
-
         }
-
-        
         #endregion
-
     }
 }
