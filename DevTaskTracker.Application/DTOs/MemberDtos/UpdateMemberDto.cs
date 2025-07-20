@@ -20,7 +20,6 @@ namespace DevTaskTracker.Application.DTOs.MemberDtos
         public bool IsActive { get; set; }
         public string RowVersion { get; set; }
         public string? ImageUrl {  get; set; }
-
         public IFormFile? File { get; set; } 
     }
 }
